@@ -5,6 +5,7 @@ const AppLayerSettings = () => {
   const { selectedLayerIds } = useSelectedLayers();
   return (
     <div
+    id = "test"
       css={{
         background: 'white',
         borderBottom: '1px solid rgba(57,76,96,.15)',

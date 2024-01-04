@@ -8,10 +8,14 @@ import HeaderLayout from './layout/HeaderLayout';
 import Sidebar from './layout/Sidebar';
 import EditorContent from './pages/EditorContent';
 import PreviewModal from './PreviewModal';
+import html2canvas from 'html2canvas';
+import { DesignFrame } from '@lidojs/design-editor';
+import { data } from './data';
 
 const Test = () => {
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const [openPreview, setOpenPreview] = useState(false);
+  const ele = useRef(null)
 
   const getFonts = useCallback((query: GetFontQuery) => {
     const buildParams = (data: Record<string, string | string[]>) => {
@@ -42,6 +46,15 @@ const Test = () => {
       window.removeEventListener('resize', windowHeight);
     };
   }, []);
+
+  const getImg = ()=>{
+    var frame = ele.current.firstChild.firstChild.firstChild.firstChild.firstChild.firstChild.children[1]
+    html2canvas(frame).then(canvas => {
+      const pngData = canvas.toDataURL('image/png');
+      console.log(pngData);
+    });
+  }
+
   return (
     <Editor
       config={{
@@ -86,6 +99,7 @@ const Test = () => {
               background: 'white',
             }}
           >
+            <button onClick={getImg}>Get Img</button>
             <Sidebar />
           </div>
           <div
@@ -99,6 +113,7 @@ const Test = () => {
           >
             <AppLayerSettings />
             <div
+              ref={ele}
               css={{
                 flexGrow: 1,
                 overflow: 'auto',
@@ -106,7 +121,7 @@ const Test = () => {
                 flexDirection: 'column',
               }}
             >
-              <EditorContent />
+              <EditorContent  />
             </div>
             <div
               css={{
